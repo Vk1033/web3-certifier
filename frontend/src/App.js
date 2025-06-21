@@ -99,7 +99,7 @@ const App = () => {
   const loadStats = async () => {
     try {
       const totalCerts = await contract.getTotalCertificates();
-      setStats(prev => ({ ...prev, total: totalCerts.toNumber() }));
+      setStats(prev => ({ ...prev, total: Number(totalCerts) }));
     } catch (error) {
       console.error('Error loading stats:', error);
     }

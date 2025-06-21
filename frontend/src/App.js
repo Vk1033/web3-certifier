@@ -45,11 +45,11 @@ const App = () => {
   const initializeWeb3 = async () => {
     if (typeof window.ethereum !== 'undefined') {
       try {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const provider = new ethers.BrowserProvider(window.ethereum);
         const accounts = await provider.send("eth_requestAccounts", []);
         
         if (accounts.length > 0) {
-          const signer = provider.getSigner();
+          const signer = await provider.getSigner();
           const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
           
           setProvider(provider);
@@ -59,7 +59,7 @@ const App = () => {
           
           // Check if we're on the correct network
           const network = await provider.getNetwork();
-          if (network.chainId !== CHAIN_ID) {
+          if (network.chainId !== BigInt(CHAIN_ID)) {
             setError(`Please switch to ${NETWORK_NAME} (Chain ID: ${CHAIN_ID})`);
           }
         }

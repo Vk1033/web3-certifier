@@ -146,8 +146,20 @@ const App = () => {
       const receipt = await tx.wait();
       
       // Get certificate ID from event
-      const event = receipt.events?.find(e => e.event === 'CertificateIssued');
-      const certificateId = event?.args?.certificateId?.toString();
+      const event = receipt.logs?.find(log => {
+        try {
+          const parsedLog = contract.interface.parseLog(log);
+          return parsedLog.name === 'CertificateIssued';
+        } catch (e) {
+          return false;
+        }
+      });
+      
+      let certificateId = "unknown";
+      if (event) {
+        const parsedLog = contract.interface.parseLog(event);
+        certificateId = parsedLog.args.certificateId?.toString();
+      }
       
       showSuccess(`Certificate #${certificateId} issued successfully to ${recipientName}!`);
       setRecipientAddress('');

@@ -228,7 +228,7 @@ const App = () => {
           recipient: cert.recipient,
           name: cert.name,
           course: cert.course,
-          issuedAt: new Date(cert.issuedAt.toNumber() * 1000).toLocaleDateString()
+          issuedAt: new Date(Number(cert.issuedAt) * 1000).toLocaleDateString()
         };
       });
 

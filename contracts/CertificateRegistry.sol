@@ -59,8 +59,8 @@ contract CertificateRegistry is Ownable, ReentrancyGuard {
     }
     
     constructor() Ownable(msg.sender) {
-        _certificateCounter = 1; // Start from 1 to avoid confusion with default value 0
-    }
+       _certificateCounter = 1;
+   }
     
     // Organization Management Functions (Only Super Admin)
     
@@ -182,7 +182,18 @@ contract CertificateRegistry is Ownable, ReentrancyGuard {
         validAddress(_recipient)
         returns (uint256[] memory)
     {
-        return recipientCertificates[_recipient];
+        uint256[] storage certIds = recipientCertificates[_recipient];
+        uint256 length = certIds.length;
+        
+        if (length == 0) {
+            return new uint256[](0);
+        }
+        
+        uint256[] memory result = new uint256[](length);
+        for (uint256 i = 0; i < length; i++) {
+            result[i] = certIds[i];
+        }
+        return result;
     }
     
     /**
@@ -195,7 +206,18 @@ contract CertificateRegistry is Ownable, ReentrancyGuard {
         validAddress(_organization)
         returns (uint256[] memory)
     {
-        return organizationCertificates[_organization];
+        uint256[] storage certIds = organizationCertificates[_organization];
+        uint256 length = certIds.length;
+        
+        if (length == 0) {
+            return new uint256[](0);
+        }
+        
+        uint256[] memory result = new uint256[](length);
+        for (uint256 i = 0; i < length; i++) {
+            result[i] = certIds[i];
+        }
+        return result;
     }
     
     /**

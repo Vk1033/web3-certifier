@@ -1,12 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
-  
-  // Enable experimental features for better Web3 compatibility
-  experimental: {
-    esmExternals: false,
-  },
   
   // Configure webpack for Web3 libraries
   webpack: (config, { isServer }) => {

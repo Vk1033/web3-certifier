@@ -4,7 +4,6 @@ import dynamic from 'next/dynamic';
 import { ethers } from 'ethers';
 import { CONTRACT_ADDRESS, CONTRACT_ABI, CHAIN_ID, NETWORK_NAME } from '../lib/contract-config';
 
-// Dynamically import Web3 components to avoid SSR issues
 const Web3Component = dynamic(() => import('../components/Web3Interface'), {
   ssr: false,
   loading: () => <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
@@ -15,7 +14,7 @@ const Web3Component = dynamic(() => import('../components/Web3Interface'), {
   </div>
 });
 
-export default function Home() {
+const Home: React.FC = () => {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -49,4 +48,6 @@ export default function Home() {
       <Web3Component />
     </>
   );
-}
+};
+
+export default Home; 
